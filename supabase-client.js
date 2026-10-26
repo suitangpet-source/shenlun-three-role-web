@@ -15,6 +15,8 @@
     auth: {
       signInWithPassword: function (args) { return client.auth.signInWithPassword(args); },
       signUp: function (args) { return client.auth.signUp(args); },
+      resetPasswordForEmail: function (email, options) { return client.auth.resetPasswordForEmail(email, options); },
+      updateUser: function (args) { return client.auth.updateUser(args); },
       signOut: function () { return client.auth.signOut(); },
       getSession: async function () {
         var r = await client.auth.getSession();
