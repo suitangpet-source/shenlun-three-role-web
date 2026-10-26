@@ -1,0 +1,5 @@
+private-app.html
+*.service-role.*
+.DS_Store
+Thumbs.db
+/app.html

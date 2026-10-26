@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>申论三人局 · 管理后台</title>
+<style>
+  :root{
+    --bg:#0d0a14; --panel:#171021; --line:rgba(255,255,255,.10); --ink:#efe9f2;
+    --muted:#a99bbd; --accent:#a76a92; --accent2:#7a5fa8;
+    --ok:#8fd6a8; --warn:#e8c48a; --bad:#e89aa2;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 700px at 50% -10%,#241a2e 0%,#120e1a 55%,#0a0810 100%);
+    color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh}
+  input,button{font-family:inherit}
+  .wrap{max-width:900px;margin:0 auto;padding:28px 18px 60px}
+
+  /* ---------- 登录 ---------- */
+  #loginView{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .card{width:min(92vw,380px);padding:36px 32px 28px;border:1px solid var(--line);border-radius:18px;
+    background:rgba(255,255,255,.04);box-shadow:0 24px 70px rgba(0,0,0,.55);text-align:center}
+  .kicker{font-size:11px;letter-spacing:.3em;color:#b9a8cf}
+  .title{font-size:27px;font-weight:700;margin:10px 0 4px;letter-spacing:.06em;
+    background:linear-gradient(120deg,#e9d8ff,#f6c9d8 60%,#cfe3ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+  .card input{width:100%;padding:12px 14px;margin-bottom:12px;border-radius:10px;border:1px solid rgba(255,255,255,.16);
+    background:rgba(255,255,255,.06);color:#f2ecf6;font-size:15px;outline:none}
+  .card input:focus{border-color:#a78bc9}
+  .btn{width:100%;padding:12px 0;border:none;border-radius:11px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;
+    background:linear-gradient(120deg,var(--accent2),var(--accent));box-shadow:0 8px 24px rgba(122,95,168,.3)}
+  .btn:disabled{opacity:.6;cursor:default}
+  .msg{min-height:20px;font-size:13px;margin:2px 0 8px;color:var(--bad)}
+  .msg.ok{color:var(--ok)}
+  .back{display:block;margin-top:14px;font-size:12px;color:#9d8fb4;text-decoration:none;border-bottom:1px dotted #6b5f80;width:max-content;margin-left:auto;margin-right:auto}
+
+  /* ---------- 后台 ---------- */
+  header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  header h1{font-size:20px;margin:0;letter-spacing:.04em}
+  header .who{font-size:12px;color:var(--muted);margin-left:auto}
+  .ghost{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#ded4ea;
+    padding:7px 13px;border-radius:9px;font-size:13px;cursor:pointer;text-decoration:none}
+  .ghost:hover{background:rgba(255,255,255,.12)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0 6px}
+  .stat{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:rgba(255,255,255,.03)}
+  .stat b{display:block;font-size:22px;line-height:1.2}
+  .stat span{font-size:12px;color:var(--muted)}
+  .stat.warn b{color:var(--warn)} .stat.ok b{color:var(--ok)} .stat.bad b{color:var(--bad)}
+  .toolbar{display:flex;gap:8px;align-items:center;margin:18px 0 12px;flex-wrap:wrap}
+  .tab{padding:7px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:transparent;
+    color:#cbbfdc;font-size:13px;cursor:pointer}
+  .tab.on{background:linear-gradient(120deg,var(--accent2),var(--accent));color:#fff;border-color:transparent}
+  .toolbar input{margin-left:auto;padding:8px 12px;border-radius:9px;border:1px solid rgba(255,255,255,.16);
+    background:rgba(255,255,255,.05);color:#f2ecf6;font-size:13px;outline:none;width:190px}
+  .list{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.02)}
+  .row{display:grid;grid-template-columns:1.5fr .8fr .9fr .7fr .9fr;gap:10px;align-items:center;
+    padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.06);font-size:13.5px}
+  .row:last-child{border-bottom:none}
+  .row.head{font-size:12px;color:var(--muted);background:rgba(255,255,255,.03);padding:10px 16px}
+  .row .email{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .row .email small{display:block;font-weight:400;color:var(--muted);font-size:11.5px;margin-top:2px}
+  .badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11.5px;border:1px solid transparent}
+  .badge.pending{color:var(--warn);border-color:rgba(232,196,138,.35);background:rgba(232,196,138,.1)}
+  .badge.approved{color:var(--ok);border-color:rgba(143,214,168,.35);background:rgba(143,214,168,.1)}
+  .badge.rejected{color:var(--bad);border-color:rgba(232,154,162,.35);background:rgba(232,154,162,.1)}
+  .badge.admin{color:#cbb6ff;border-color:rgba(203,182,255,.35);background:rgba(203,182,255,.1)}
+  .acts{display:flex;gap:6px;flex-wrap:wrap}
+  .acts button{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#ded4ea;
+    border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer}
+  .acts button:hover{background:rgba(255,255,255,.12)}
+  .acts button.primary{background:linear-gradient(120deg,var(--accent2),var(--accent));border-color:transparent;color:#fff}
+  .acts button.danger{color:var(--bad)}
+  .empty{padding:34px;text-align:center;color:var(--muted);font-size:13.5px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);padding:10px 18px;border-radius:10px;
+    background:rgba(30,22,42,.95);border:1px solid var(--line);font-size:13px;color:#f0e9f5;opacity:0;
+    transition:opacity .25s;pointer-events:none;z-index:9999;max-width:90vw}
+  .toast.show{opacity:1}
+  .hint{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.7}
+  @media (max-width:720px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .row{grid-template-columns:1fr 1fr;row-gap:8px}
+    .row.head{display:none}
+    .toolbar input{margin-left:0;width:100%}
+  }
+</style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+
+<div id="loginView">
+  <div class="card">
+    <div class="kicker">ADMIN CONSOLE</div>
+    <div class="title">管理后台</div>
+    <div class="sub">仅管理员账户可登录</div>
+    <input id="admEmail" type="email" maxlength="60" placeholder="管理员邮箱" autocomplete="username">
+    <input id="admPass" type="password" maxlength="64" placeholder="密码" autocomplete="current-password">
+    <div class="msg" id="admMsg"></div>
+    <button class="btn" id="admGo">登 录</button>
+    <a class="back" href="index.html">返回网站首页</a>
+  </div>
+</div>
+
+<div class="wrap" id="panel" style="display:none">
+  <header>
+    <h1>用户授权管理</h1>
+    <span class="who" id="who"></span>
+    <button class="ghost" id="btnReload">刷新</button>
+    <a class="ghost" href="index.html">返回网站</a>
+    <button class="ghost" id="btnSignOut">退出</button>
+  </header>
+
+  <div class="stats">
+    <div class="stat warn"><b id="cPending">0</b><span>待授权</span></div>
+    <div class="stat ok"><b id="cApproved">0</b><span>已授权</span></div>
+    <div class="stat bad"><b id="cRejected">0</b><span>已拒绝</span></div>
+    <div class="stat"><b id="cTotal">0</b><span>账户总数</span></div>
+  </div>
+
+  <div class="toolbar">
+    <button class="tab on" data-f="pending">待授权</button>
+    <button class="tab" data-f="approved">已授权</button>
+    <button class="tab" data-f="rejected">已拒绝</button>
+    <button class="tab" data-f="all">全部</button>
+    <input id="q" placeholder="搜索邮箱 / 昵称">
+  </div>
+
+  <div class="list">
+    <div class="row head"><div>账户</div><div>昵称</div><div>注册时间</div><div>状态</div><div>操作</div></div>
+    <div id="rows"></div>
+  </div>
+
+  <div class="hint">
+    授权后用户才能登录网站；未授权账户登录时会提示「请联系管理员」。<br>
+    首个注册的账户会自动成为管理员并直接通过授权。管理员可在本页把授权转交给其他账户（设为管理员），或取消某人的管理员身份。
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var $=function(id){ return document.getElementById(id); };
+  var me=null, all=[], filter="pending", poll=null;
+
+  function toast(t){
+    var el=$("toast"); el.textContent=t; el.classList.add("show");
+    clearTimeout(el._t); el._t=setTimeout(function(){ el.classList.remove("show"); }, 2600);
+  }
+  function msg(t,ok){ var m=$("admMsg"); m.textContent=t||""; m.className=ok?"msg ok":"msg"; }
+  function uidOf(s){ var u=(s&&s.user)||{}; return u.id||u.uid||u.sub||null; }
+  function errText(e,fb){
+    if(!e) return fb;
+    if(e.kind==="network"||e.kind==="backend-unavailable") return "网络或服务暂不可用，请稍后重试";
+    return e.message||fb;
+  }
+  function fmt(ts){
+    if(!ts) return "—";
+    var d=new Date(ts);
+    if(isNaN(d.getTime())) return "—";
+    var p=function(n){ return n<10?"0"+n:""+n; };
+    return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes());
+  }
+
+  async function myProfile(){
+    var r=await cloud.database.from("profiles").select("owner_id,email,nickname,status,role").maybeSingle();
+    if(r.error){ console.warn("[profile]", r.error.code||"", r.error.message||""); return null; }
+    return r.data||null;
+  }
+
+  function showPanel(on){
+    $("loginView").style.display = on ? "none" : "flex";
+    $("panel").style.display = on ? "block" : "none";
+  }
+
+  async function doLogin(){
+    var email=$("admEmail").value.trim(), pwd=$("admPass").value;
+    if(!email||!pwd){ msg("请输入邮箱和密码"); return; }
+    if(!cloud){ msg("登录服务尚未配置，请检查 config.js"); return; }
+    $("admGo").disabled=true; msg("登录中…", true);
+    var r=await cloud.auth.signInWithPassword({ email:email, password:pwd });
+    if(r.error){ $("admGo").disabled=false; msg(errText(r.error,"邮箱或密码不正确")); return; }
+    var s=await cloud.auth.getSession();
+    if(s.error||!s.data){ $("admGo").disabled=false; msg("登录状态获取失败，请重试"); return; }
+    var prof=await myProfile();
+    if(!prof || prof.role!=="admin" || prof.status!=="approved"){
+      try{ await cloud.auth.signOut(); }catch(e){}
+      $("admGo").disabled=false;
+      msg("该账户不是管理员，无法进入后台");
+      return;
+    }
+    me={ uid:uidOf(s.data), email:prof.email, nickname:prof.nickname };
+    $("admGo").disabled=false; msg("");
+    enterPanel();
+  }
+
+  function enterPanel(){
+    showPanel(true);
+    $("who").textContent = "当前管理员：" + (me.nickname ? me.nickname+" ("+(me.email||"")+")" : (me.email||me.uid));
+    load();
+    clearInterval(poll);
+    poll=setInterval(function(){ if(!document.hidden) load(true); }, 30000);
+  }
+
+  async function load(silent){
+    var r=await cloud.database.from("profiles")
+      .select("owner_id,email,nickname,status,role,created_at,reviewed_at")
+      .order("created_at",{ ascending:false });
+    if(r.error){
+      if(!silent) toast(errText(r.error,"读取用户列表失败"));
+      return;
+    }
+    all=r.data||[];
+    render();
+  }
+
+  function counts(){
+    var c={pending:0,approved:0,rejected:0};
+    all.forEach(function(p){ if(c[p.status]!==undefined) c[p.status]++; });
+    $("cPending").textContent=c.pending;
+    $("cApproved").textContent=c.approved;
+    $("cRejected").textContent=c.rejected;
+    $("cTotal").textContent=all.length;
+  }
+
+  function render(){
+    counts();
+    var q=$("q").value.trim().toLowerCase();
+    var rows=all.filter(function(p){
+      if(filter!=="all" && p.status!==filter) return false;
+      if(q){
+        var hay=((p.email||"")+" "+(p.nickname||"")).toLowerCase();
+        if(hay.indexOf(q)<0) return false;
+      }
+      return true;
+    });
+    var host=$("rows");
+    host.innerHTML="";
+    if(!rows.length){
+      host.innerHTML='<div class="empty">'+(filter==="pending"?"暂无待授权账户":"没有符合条件的账户")+'</div>';
+      return;
+    }
+    rows.forEach(function(p){
+      var self = p.owner_id===me.uid;
+      var div=document.createElement("div");
+      div.className="row";
+      var badgeCls = p.status==="approved"?"approved":(p.status==="rejected"?"rejected":"pending");
+      var stName = p.status==="approved"?"已授权":(p.status==="rejected"?"已拒绝":"待授权");
+      div.innerHTML =
+        '<div class="email">'+esc(p.email||"（无邮箱）")+'<small>'+esc(p.owner_id)+(self?" · 我":"")+'</small></div>'+
+        '<div>'+esc(p.nickname||"—")+'</div>'+
+        '<div>'+fmt(p.created_at)+'</div>'+
+        '<div><span class="badge '+badgeCls+'">'+stName+'</span>'+
+          (p.role==="admin"?' <span class="badge admin">管理员</span>':"")+'</div>'+
+        '<div class="acts"></div>';
+      var acts=div.querySelector(".acts");
+      function addBtn(label, cls, fn){
+        var b=document.createElement("button");
+        b.textContent=label; if(cls) b.className=cls;
+        b.onclick=fn; acts.appendChild(b);
+      }
+      if(self){
+        var tip=document.createElement("span");
+        tip.style.cssText="font-size:12px;color:#8d80a3";
+        tip.textContent="（当前账户）";
+        acts.appendChild(tip);
+      }else{
+        if(p.status!=="approved") addBtn("授权通过","primary",function(){ return setStatus(p,"approved"); });
+        if(p.status!=="rejected") addBtn("拒绝",null,function(){ return setStatus(p,"rejected"); });
+        if(p.role==="admin") addBtn("取消管理员",null,function(){ return setRole(p,"user"); });
+        else addBtn("设为管理员",null,function(){ return setRole(p,"admin"); });
+        addBtn("删除",'danger',function(){ return removeProfile(p); });
+      }
+      host.appendChild(div);
+    });
+  }
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g,function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  async function setStatus(p, status){
+    var r=await cloud.database.from("profiles")
+      .update({ status:status, reviewed_at:new Date().toISOString() })
+      .eq("owner_id",p.owner_id).select();
+    if(r.error){ toast(errText(r.error,"操作失败")); return; }
+    if(!r.data||!r.data.length){ toast("没有权限或记录不存在"); return; }
+    toast(status==="approved"?"已授权："+(p.email||p.nickname):"已拒绝："+(p.email||p.nickname));
+    await load(true);
+  }
+
+  async function setRole(p, role){
+    var r=await cloud.database.from("profiles").update({ role:role }).eq("owner_id",p.owner_id).select();
+    if(r.error){ toast(errText(r.error,"操作失败")); return; }
+    if(!r.data||!r.data.length){ toast("没有权限或记录不存在"); return; }
+    toast(role==="admin"?"已设为管理员："+(p.email||p.nickname):"已取消管理员："+(p.email||p.nickname));
+    await load(true);
+  }
+
+  async function removeProfile(p){
+    if(!confirm("删除 "+(p.email||p.owner_id)+" 的授权记录？\n该账户将无法登录，重新注册后仍需授权。")) return;
+    var r=await cloud.database.from("profiles").delete().eq("owner_id",p.owner_id).select();
+    if(r.error){ toast(errText(r.error,"删除失败")); return; }
+    if(!r.data||!r.data.length){ toast("没有权限或记录不存在"); return; }
+    toast("已删除");
+    await load(true);
+  }
+
+  $("admGo").onclick=doLogin;
+  $("admPass").addEventListener("keydown",function(e){ if(e.key==="Enter") doLogin(); });
+  $("btnReload").onclick=function(){ load(); toast("已刷新"); };
+  $("q").addEventListener("input",render);
+  $("btnSignOut").onclick=async function(){
+    clearInterval(poll);
+    try{ await cloud.auth.signOut(); }catch(e){}
+    location.reload();
+  };
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(t){
+    t.onclick=function(){
+      Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(x){ x.className="tab"; });
+      t.className="tab on"; filter=t.dataset.f; render();
+    };
+  });
+
+  (async function boot(){
+    if(!cloud){ msg("网站尚未连接登录服务：请先配置 config.js"); return; }
+    var s=await cloud.auth.getSession();
+    if(s.error||!s.data){ return; }
+    var prof=await myProfile();
+    if(prof&&prof.role==="admin"&&prof.status==="approved"){
+      me={ uid:uidOf(s.data), email:prof.email, nickname:prof.nickname };
+      enterPanel();
+    }else{
+      try{ await cloud.auth.signOut(); }catch(e){}
+      msg("该账户不是管理员，无法进入后台");
+    }
+  })();
+})();
+</script>
+</body>
+</html>
+
