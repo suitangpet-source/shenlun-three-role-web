@@ -38,7 +38,7 @@
   }
   async function loadPrivateApp() {
     show("授权已确认，正在从私有后端载入正文…",true); busy(true);
-    var r=await window.supabaseClient.storage.from("private-app").download("app.html");
+    var r=await window.supabaseClient.storage.from("private-app").download("app-new.html");
     if(r.error){ busy(false); show("正文载入失败："+errorText(r.error,"请联系管理员检查私有文件")); return; }
     var html=await r.data.text();
     document.open(); document.write(html); document.close();
