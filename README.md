@@ -11,7 +11,7 @@
 ## 架构
 
 - GitHub Pages 只托管登录页、后台页面、公开程序代码和图片素材。
-- 完整正文 `app-v8.html` **不进入 Git 仓库**，存放在 Supabase 私有 Storage 桶 `private-app`。
+- 完整正文 `app-v9.html` **不进入 Git 仓库**，存放在 Supabase 私有 Storage 桶 `private-app`。
 - 用户登录后，必须同时满足 `profiles.status = approved`，Supabase RLS 才允许下载正文。
 - 未授权用户无法通过 GitHub 页面源代码取得正文。
 - 用户书签等学习数据按账号保存到 `user_data`，并由 RLS 隔离。
@@ -20,8 +20,8 @@
 
 1. 创建 Supabase Project，在 SQL Editor 整段运行 `setup.sql`。
 2. 将 Supabase Project URL 和 anon/publishable key 填入 `config.js`。不要填写 `service_role` key。
-3. 在本地配套目录 `shenlun-private-upload` 中找到私有文件 `app.html`，上传时命名为 `app-v8.html`。
-4. 在 Supabase Dashboard 打开 Storage > `private-app`，把 `app-v8.html` 上传到桶根目录。
+3. 在本地配套目录 `shenlun-private-upload` 中找到私有文件 `app.html`，上传时命名为 `app-v9.html`。
+4. 在 Supabase Dashboard 打开 Storage > `private-app`，把 `app-v9.html` 上传到桶根目录。
 5. 打开 Authentication > URL Configuration：
    - Site URL：`https://suitangpet-source.github.io/shenlun-three-role-web/`
    - Redirect URLs：添加 `https://suitangpet-source.github.io/shenlun-three-role-web/**`
