@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">迎风调整航线的备考小鸟漫画</title>
+  <desc id="desc">一只背书包的小鸟观察风向、调整翅膀，在知识谷粒和航线之间飞行。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff9e9"/><stop offset="1" stop-color="#ead9bd"/></linearGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9824b"/><stop offset="1" stop-color="#a54f31"/></linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5b766"/><stop offset="1" stop-color="#d9773d"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#513721" flood-opacity=".18"/></filter>
+    <pattern id="paper" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="1" fill="#6a4a2b" opacity=".035"/><path d="M15 2l8 6M2 19l7 5" stroke="#6a4a2b" opacity=".025"/></pattern>
+  </defs>
+  <rect width="900" height="560" rx="42" fill="url(#bg)"/>
+  <rect width="900" height="560" rx="42" fill="url(#paper)"/>
+  <circle cx="760" cy="105" r="62" fill="#f3cf77" opacity=".5"/>
+  <path d="M25 428C160 376 276 410 390 444s260 54 485-12v128H25z" fill="#ceb88f" opacity=".42"/>
+  <path d="M24 467c150-42 265-18 382 20 143 47 291 36 469-10v83H24z" fill="#9aa887" opacity=".3"/>
+
+  <g fill="none" stroke="#31536c" stroke-linecap="round" opacity=".65">
+    <path d="M58 164c88-48 156-33 224 2" stroke-width="8"/>
+    <path d="M68 202c60-25 112-19 165 11" stroke-width="5"/>
+    <path d="M99 118c43-18 83-14 119 7" stroke-width="4"/>
+    <path d="M744 174c44 20 74 46 94 78" stroke-width="5" stroke-dasharray="8 15"/>
+    <path d="M836 251l-5-27m5 27l-27-5" stroke-width="5"/>
+  </g>
+
+  <g filter="url(#shadow)" transform="translate(115 65)">
+    <path d="M306 362c-61 16-122 5-163-31 36 1 76-7 108-30z" fill="#8d4932" stroke="#5f3728" stroke-width="7" stroke-linejoin="round"/>
+    <ellipse cx="372" cy="267" rx="169" ry="142" fill="url(#body)" stroke="#5f3728" stroke-width="9" transform="rotate(-7 372 267)"/>
+    <ellipse cx="400" cy="299" rx="102" ry="88" fill="#ffe0a2" opacity=".92" transform="rotate(-8 400 299)"/>
+    <path d="M320 230c-81-62-155-51-210 25 72-14 126 21 167 79 32-16 55-51 43-104z" fill="url(#wing)" stroke="#5f3728" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M153 257c45 1 85 20 121 59M181 224c49 10 91 34 125 71" fill="none" stroke="#f2b276" stroke-width="8" stroke-linecap="round" opacity=".72"/>
+    <path d="M444 186c53-104 135-132 226-84-81 24-123 75-130 153-42 10-77-14-96-69z" fill="url(#wing)" stroke="#5f3728" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M520 164c46-28 92-39 139-32M502 202c51-15 101-13 146 3" fill="none" stroke="#f2b276" stroke-width="8" stroke-linecap="round" opacity=".72"/>
+    <circle cx="454" cy="191" r="77" fill="#f3ad5c" stroke="#5f3728" stroke-width="9"/>
+    <path d="M512 198l68 25-68 25c8-18 8-33 0-50z" fill="#e7a22d" stroke="#5f3728" stroke-width="8" stroke-linejoin="round"/>
+    <circle cx="477" cy="172" r="11" fill="#2c3135"/>
+    <circle cx="481" cy="168" r="3.5" fill="#fff"/>
+    <path d="M438 143c18-15 39-21 61-14" fill="none" stroke="#5f3728" stroke-width="8" stroke-linecap="round"/>
+    <path d="M274 188c-4-69 18-111 66-126 37 28 50 75 31 139" fill="#36566b" stroke="#233d50" stroke-width="9"/>
+    <rect x="267" y="154" width="111" height="116" rx="27" fill="#36566b" stroke="#233d50" stroke-width="9" transform="rotate(6 322 212)"/>
+    <path d="M294 175l49 5M297 204l54 7" stroke="#c7d7df" stroke-width="7" stroke-linecap="round" opacity=".72"/>
+    <path d="M333 64c9-27 30-45 62-54M352 76c27-28 58-39 94-34" stroke="#233d50" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M385 394c-4 30-16 52-36 67M429 392c3 29 16 50 38 64" fill="none" stroke="#5f3728" stroke-width="9" stroke-linecap="round"/>
+    <path d="M324 464h53M442 458h55" fill="none" stroke="#5f3728" stroke-width="9" stroke-linecap="round"/>
+  </g>
+
+  <g fill="#d29a2d" stroke="#7c5620" stroke-width="4">
+    <ellipse cx="178" cy="467" rx="10" ry="20" transform="rotate(23 178 467)"/>
+    <ellipse cx="215" cy="490" rx="10" ry="20" transform="rotate(-18 215 490)"/>
+    <ellipse cx="746" cy="421" rx="10" ry="20" transform="rotate(31 746 421)"/>
+    <ellipse cx="789" cy="450" rx="10" ry="20" transform="rotate(-13 789 450)"/>
+    <ellipse cx="824" cy="408" rx="10" ry="20" transform="rotate(15 824 408)"/>
+  </g>
+  <g fill="none" stroke="#9d3b32" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M664 352c55-7 104-31 143-76" stroke-dasharray="10 16"/>
+    <path d="M807 276l-8 30m8-30l-31 3"/>
+  </g>
+  <g transform="translate(690 78) rotate(5)" filter="url(#shadow)">
+    <rect width="128" height="92" rx="15" fill="#fffdf5" stroke="#9a6a28" stroke-width="6"/>
+    <path d="M27 30h72M27 50h58M27 70h78" stroke="#c5a66d" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="107" cy="25" r="9" fill="#9d3b32"/>
+  </g>
+</svg>
