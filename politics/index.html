@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>考研政治·三人局 · 登录</title>
+<style>
+:root{--ink:#efe9f2;--muted:#aa9dbb;--a:#7a5fa8;--b:#a76a92;--ok:#8fd6a8;--bad:#ef9da7}
+*{box-sizing:border-box} body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;color:var(--ink);
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+background:radial-gradient(900px 600px at 50% 5%,#30223b,#171020 55%,#09070e)}
+.card{width:min(92vw,410px);padding:38px 34px 30px;border:1px solid rgba(255,255,255,.12);border-radius:20px;
+background:rgba(255,255,255,.05);box-shadow:0 26px 80px rgba(0,0,0,.55);text-align:center;backdrop-filter:blur(14px)}
+.kicker{font-size:11px;letter-spacing:.32em;color:#c6b6d8}.title{font-size:38px;font-weight:800;margin:10px 0 4px;
+background:linear-gradient(120deg,#ead9ff,#f6cad9 60%,#cfe3ff);-webkit-background-clip:text;color:transparent}
+.sub{font-size:13px;color:var(--muted);margin-bottom:22px}.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tabs button{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:transparent;color:#cbbfdc;cursor:pointer}
+.tabs button.on{border-color:transparent;color:#fff;background:linear-gradient(120deg,var(--a),var(--b))}
+input{width:100%;padding:13px 14px;margin-bottom:12px;border-radius:10px;border:1px solid rgba(255,255,255,.17);background:rgba(255,255,255,.06);color:#fff;font-size:15px;outline:none}
+input:focus{border-color:#b49ad2}.primary{width:100%;padding:13px;border:0;border-radius:11px;color:white;font-size:16px;font-weight:650;cursor:pointer;background:linear-gradient(120deg,var(--a),var(--b))}
+.primary:disabled{opacity:.55;cursor:wait}.msg{min-height:38px;margin:2px 0 8px;font-size:13px;line-height:1.55;color:var(--bad)}.msg.ok{color:var(--ok)}
+.reg{display:none}.foot{margin-top:16px;font-size:12px;color:#8f829f;display:flex;justify-content:center;gap:18px;align-items:center}.foot a,.linkbtn{color:#b4a2ca;text-decoration:none;border:0;border-bottom:1px dotted #76668a;background:none;padding:0;font:inherit;cursor:pointer}
+.secure{margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:#786d86;line-height:1.6}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="kicker">POLITICS MEMORY ADVENTURE</div>
+  <div class="title">考研政治·三人局</div>
+  <div class="sub">三人局 × 小鸟生存带背；内容存放于私有后端，管理员授权后开放</div>
+  <div class="tabs"><button id="tabLogin" class="on">登录</button><button id="tabReg">注册申请</button></div>
+  <input id="email" type="email" maxlength="100" placeholder="邮箱（登录账号）" autocomplete="username">
+  <input id="password" type="password" maxlength="72" placeholder="密码" autocomplete="current-password">
+  <div id="regFields" class="reg"><input id="nickname" maxlength="24" placeholder="昵称（可选）"></div>
+  <div id="resetFields" class="reg"><input id="passwordConfirm" type="password" maxlength="72" placeholder="再次输入新密码" autocomplete="new-password"></div>
+  <div id="msg" class="msg"></div>
+  <button id="submit" class="primary">登 录</button>
+  <div class="foot"><button id="forgotPassword" class="linkbtn" type="button">忘记密码？</button><a href="../admin.html">管理员后台</a></div>
+  <div class="secure">未授权账户只能看到此登录页，无法从 GitHub Pages 获取正文文件。</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config.js"></script>
+<script src="../supabase-client.js?v=20261027-1"></script>
+<script src="./portal.js?v=20261028-1"></script>
+</body>
+</html>

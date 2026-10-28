@@ -22,7 +22,7 @@
     if(!cloud){location.replace("./");return;}
     var s=await cloud.auth.getSession(); if(s.error||!s.data){location.replace("./");return;}
     var p=await profile(); if(!p||p.status!=="approved"){await cloud.auth.signOut();location.replace("./");return;}
-    window.CUR_USER=s.data.user.id; await hydrate(window.CUR_USER); window.CLOUD_READY=true;
+    window.CUR_USER=s.data.user.id; await hydrate(window.CUR_USER); window.CLOUD_READY=true; window.dispatchEvent(new CustomEvent("cloud-hydrated",{detail:{userId:window.CUR_USER}}));
     var name=document.getElementById("privateUserName");if(name)name.textContent=p.nickname||p.email;
     if(typeof renderBookmarks==="function")try{renderBookmarks()}catch(e){}
     if(typeof pickVoices==="function")try{pickVoices()}catch(e){}
